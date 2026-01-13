@@ -1,0 +1,17 @@
+{
+  "options": [
+    {
+      "name": "Comisiones",
+      "list": ["Configuracion", "Calculadora"]
+    },
+    {
+      "name": "Meta mensual",
+      "list": ["Configuracion", "Promedio diario", "Conteo"]
+    },
+    {
+      "name": "Caja",
+      "list": ["Configuracion", "Registro"]
+    }
+  ],
+  "icon": "www.imagen.com"
+}

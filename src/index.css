@@ -1,0 +1,57 @@
+:root{
+  --default: rgb(242, 241, 229);
+}
+
+
+*{
+  margin: 0;
+  padding: 0;
+  border: none;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+body{
+  max-width: 99vw;
+  overflow-x: hidden;
+}
+.txt{
+  color : aliceblue;
+}
+
+button{
+  padding: 0.5em 1.5em;
+  margin-top: 20px;
+  background-image: linear-gradient(to left, rgb(8, 6, 112),rgb(42, 63, 179)); 
+  color: aliceblue; 
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2em;
+
+  width: 99%;
+  max-width: 100vw;
+  margin: 0 auto;
+  padding: 3em 0em;
+
+  overflow-x: hidden;
+  justify-items: center; /* centra las cards en cada columna */
+  align-items: start;
+
+  background-color: var(--default);
+}
+
+@media (max-width: 900px) {
+  .card-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5em;
+  }
+}
