@@ -50,5 +50,12 @@
             "gastos": 0,
             "meta": 0
         }
-    }
+ 
+    },
+    "LOCAL" : "",
+    "META" : 0,
+    "DIAS": 0,
+    "GASTOS": 0
+
+
 }

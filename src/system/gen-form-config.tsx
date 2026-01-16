@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import WebContext from '../context/context.json'
 interface GenFormConfigProps {
   modulo: string;
 }
@@ -32,7 +32,23 @@ const GenFormConfig = ({ modulo }: GenFormConfigProps) => {
     const copy = [...sueldos];
     copy[index] = value;
     setSueldos(copy);
-    
+
+    const handleDynamicChange = (name: string, value: number) => {
+      switch(name){
+        case "Meta":
+          WebContext.META = value;
+          break;
+        case "Dias":
+          WebContext.DIAS = value;
+          break;
+        case "Local":
+          WebContext.LOCAL = String(value);
+          break;
+        case "Gastos":
+          WebContext.GASTOS = value;
+          break;
+      }
+    };
     
     
   };
@@ -81,6 +97,7 @@ const GenFormConfig = ({ modulo }: GenFormConfigProps) => {
             <input
               type="number"
               placeholder={item}
+               onChange={e => handleDynamicChange(item, Number(e.target.value))}
             />
           </label>
         );
