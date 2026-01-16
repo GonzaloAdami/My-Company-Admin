@@ -1,42 +1,34 @@
-interface FormItem {
-  id: string;
-  label: string;
-  type: string;
-  name: string;
-}
-
-interface ConfiguracionProps {
-  title: string;
-  formulario: FormItem[];
-}
+import { useParams } from "react-router-dom";
+import GenFormConfig  from "../../system/gen-form-config";
 
 
-const Configuracion = ({ title, formulario }: ConfiguracionProps) => {
+
+
+const Configuracion = () => {
+  const { modulo } = useParams<{ modulo: string }>();
+
+  if (!modulo) {
+    return <p>Módulo inválido</p>;
+  }
+
+
+
   return (
     <section>
       <header>
-        <h1>{title}</h1>
+        <h1>{modulo}</h1>
       </header>
 
       <main>
         <form>
-          {formulario.map((item, index) => (
-            <div key={index}>
-              <label htmlFor={item.id}>
-                <span>{item.label}</span>
-                <input
-                  type={item.type}
-                  id={item.id}
-                  name={item.name}
-                />
-              </label>
-            </div>
-          ))}
+          
+          <GenFormConfig modulo={modulo} />
+
         </form>
       </main>
 
       <footer>
-        <button type="button">Cerrar</button>
+       
         <button type="submit">Guardar</button>
       </footer>
     </section>

@@ -2,15 +2,18 @@
   "options": [
     {
       "name": "Comisiones",
-      "list": ["Configuracion", "Calculadora"]
+      "list": ["Configuracion", "Calculadora"],
+      "id": 0
     },
     {
-      "name": "Meta mensual",
-      "list": ["Configuracion", "Promedio diario", "Conteo"]
+      "name": "Mensualidad",
+      "list": ["Configuracion", "Promedio diario", "Conteo"],
+      "id": 1
     },
     {
-      "name": "Caja",
-      "list": ["Configuracion", "Registro"]
+      "name": "Registros",
+      "list": ["Configuracion", "Registro"],
+      "id": 2
     }
   ],
   "icon": "www.imagen.com"

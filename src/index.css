@@ -47,6 +47,11 @@ button{
   background-color: var(--default);
 }
 
+a{
+  text-decoration: none;
+  color: inherit;
+}
+
 @media (max-width: 900px) {
   .card-container {
     display: flex;

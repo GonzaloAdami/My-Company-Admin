@@ -37,7 +37,7 @@ const Navbar = ({ BODY_NAVBAR }: Props) => {
               <h4>{item.name}</h4>
               <ul>
                 {item.list.map((list, i) => (
-                  <li key={i}>{list}</li>
+                  <a href={'/' + item.name + '/' + list}><li key={i}>{list}</li></a>
                 ))}
               </ul>
             </div>

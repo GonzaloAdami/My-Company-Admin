@@ -1,0 +1,25 @@
+{
+    "LOCALES": {
+        "F1": {
+            "formula": "if (ventas > 0 && ventas <= 150000) { calculo = 100 + ((ventas - 25000) / 5000) * 100; } else if (ventas > 150000) { calculo = 3200 + ((ventas - 150000) / 4000) * 100; }"
+        },
+        "F2": {
+            "formula": "if (ventas > 0) { calculo = 100 + ((ventas - 25000) / 5000) * 100; }"
+        },
+        "F3": {
+            "formula": "if (ventas > 0 && ventas <= 200000) { calculo = 100 + ((ventas - 25000) / 5000) * 100; } else if (ventas > 200000) { calculo = 3600 + ((ventas - 200000) / 3000) * 15; }"
+        },
+        "Laprida": {
+            "formula": ""
+        },
+        "Havanna": {
+            "formula": ""
+        },
+        "Cabildo": {
+            "formula": "if (ventas > 0 && ventas <= 150000) { calculo = 100 + ((ventas - 25000) / 5000) * 100; } else if (ventas > 150000) { calculo = 3200 + ((ventas - 150000) / 4000) * 100; }"
+        },
+        "Itecnology": {
+            "formula": ""
+        }
+    }
+}
