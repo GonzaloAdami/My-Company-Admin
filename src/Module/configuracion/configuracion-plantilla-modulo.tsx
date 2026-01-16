@@ -14,20 +14,20 @@ const Configuracion = () => {
 
 
   return (
-    <section>
+    <section className="flex p1 column">
       <header>
         <h1>{modulo}</h1>
       </header>
 
       <main>
-        <form>
+        <form className="flex g1 p1 mw-30 column">
           
           <GenFormConfig modulo={modulo} />
 
         </form>
       </main>
 
-      <footer>
+      <footer className="flex p1">
        
         <button type="submit">Guardar</button>
       </footer>

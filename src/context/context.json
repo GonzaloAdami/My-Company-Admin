@@ -1,0 +1,54 @@
+{
+    "LOCALES": {
+        "F1": {
+            "sueldos" : [],
+            "empleados": 0,
+            "mensual": 0,
+            "gastos": 0,
+            "meta": 0
+            
+        },
+        "F2": {
+            "sueldos" : [],
+            "empleados": 0,
+            "mensual": 0,
+            "gastos": 0,
+            "meta": 0
+        },
+        "F3": {
+            "sueldos" : [],
+            "empleados": 0,
+            "mensual": 0,
+            "gastos": 0,
+            "meta": 0
+        },
+        "Laprida": {
+            "sueldos" : [],
+            "empleados": 0,
+            "mensual": 0,
+            "gastos": 0,
+            "meta": 0
+        },
+        "Havanna": {
+            "sueldos" : [],
+            "empleados": 0,
+            "mensual": 0,
+            "gastos": 0,
+            "meta": 0
+        },
+        "Cabildo": {
+            "sueldos" : [],
+            "empleados": 0,
+            "mensual": 0,
+            "gastos": 0,
+            "meta": 0
+        },
+        "Itecnology": {
+            "sueldos" : [],
+            "empleados": 0,
+            "mensual": 0,
+            "gastos": 0,
+            "meta": 0
+        }
+    }
+}

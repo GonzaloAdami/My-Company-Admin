@@ -1,5 +1,5 @@
 :root{
-  --default: rgb(242, 241, 229);
+  --default: rgb(221, 226, 230);
 }
 
 
@@ -52,6 +52,42 @@ a{
   color: inherit;
 }
 
+input{
+  border-radius: 20px;
+  border: none;
+  padding: 0.5em 1em;
+  font-size: 1em;
+  background-color: rgb(221, 226, 230);
+}
+.p1{
+  padding: 1em;
+}
+.mw-30{
+  max-width: 30%;
+}
+.flex{
+  display: flex;
+}
+.pt-1{
+padding-top: 1em;
+}
+
+.mt-1{
+  margin-top: 0.2em;
+}
+.f2{
+  font-size: 1.2em;
+  font-weight: bold;
+  color: rgb(80, 84, 87);
+}
+.column{
+display: flex;
+flex-direction: column;
+}
+
+.g1{
+  gap: 1em;
+}
 @media (max-width: 900px) {
   .card-container {
     display: flex;
