@@ -95,6 +95,17 @@ font-weight: 800;
 padding: 0.2em 0.5em;
 border-radius: 5px;
 }
+
+select{
+  background-color: rgb(21, 21, 25);
+  padding: 0.5em 1em;
+  border-radius: 5px;
+  color: aliceblue;
+  max-width: 12em;
+  font-size: 1.1em;
+  font-weight: 800;
+}
+
 .g1{
   gap: 1em;
 }

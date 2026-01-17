@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { useWebContext } from "../web-context";
 interface GenFormConfigProps {
   modulo: string;
 }
@@ -12,6 +12,8 @@ const config_options = {
 type ConfigKey = keyof typeof config_options;
 
 const GenFormConfig = ({ modulo }: GenFormConfigProps) => {
+
+  const { setEMPLEADOS, setSUELDOS } = useWebContext();
   const context = Object.keys(config_options).find(key =>
     key.toLowerCase().includes(modulo.toLowerCase())
   ) as ConfigKey | undefined;
@@ -25,6 +27,9 @@ const GenFormConfig = ({ modulo }: GenFormConfigProps) => {
   const handleEmpleadosChange = (value: number) => {
     setEmpleados(value);
     setSueldos(Array(value).fill(0));
+
+    setEMPLEADOS(value)
+    setSUELDOS(Array(value).fill(0))
   };
 
   // 🔹 sueldo por empleado
@@ -32,6 +37,7 @@ const GenFormConfig = ({ modulo }: GenFormConfigProps) => {
     const copy = [...sueldos];
     copy[index] = value;
     setSueldos(copy);
+    setSUELDOS(copy)
     
     
     
