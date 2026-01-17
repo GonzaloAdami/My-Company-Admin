@@ -18,17 +18,7 @@ body{
   color : aliceblue;
 }
 
-button{
-  padding: 0.5em 1.5em;
-  margin-top: 20px;
-  background-image: linear-gradient(to left, rgb(8, 6, 112),rgb(42, 63, 179)); 
-  color: aliceblue; 
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 1.2em;
-}
+
 
 .card-container {
   display: grid;
@@ -84,7 +74,27 @@ padding-top: 1em;
 display: flex;
 flex-direction: column;
 }
-
+.float{
+  display: flex;
+  float: left;
+  gap: 1em;
+}
+.true{
+background-image: linear-gradient(to left, rgb(17, 119, 56), rgb(14, 119, 75));
+color: aliceblue;
+font-size: 1em;
+font-weight: 800;
+padding: 0.2em 0.5em;
+border-radius: 5px;
+}
+.false{
+background-image: linear-gradient(to left, rgb(119, 17, 17), rgb(119, 14, 14));
+color: aliceblue;
+font-size: 1em;
+font-weight: 800;
+padding: 0.2em 0.5em;
+border-radius: 5px;
+}
 .g1{
   gap: 1em;
 }

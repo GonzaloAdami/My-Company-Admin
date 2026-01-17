@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
-
+import { WebProvider } from './web-context'
 import './index.css'
 
 import Router from './Rooter/rooter'
@@ -11,10 +11,12 @@ import navdate from './Module/Navbar/navbar-bd.json'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      <main>
+      <WebProvider> 
+          <main>
         <Navbar BODY_NAVBAR={navdate}/> 
         <Router />
       </main>
+      </WebProvider>  
     </BrowserRouter>
   </StrictMode>
 )

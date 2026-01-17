@@ -3,7 +3,7 @@ import { useRoutes } from "react-router-dom";
 import About from "../Components/about/about-component";
 import Home from "../Components/Home/home-component";
 import Configuracion from "../Module/configuracion/configuracion-plantilla-modulo";
-
+import Calculadora from "../Module/Calculadora/calculadora-component";
 const Router = () => {
   const routes = useRoutes([
     {
@@ -21,6 +21,10 @@ const Router = () => {
     {
       path: "*",
       element: <p>404 Not Found</p>
+    },
+    {
+      path: ":modulo/Calculadora",
+      element: <Calculadora />
     }
   ]);
 
