@@ -14,7 +14,12 @@
       "name": "Registros",
       "list": ["Configuracion", "Registro"],
       "id": 2
-    }
+    },
+    {
+      "name": "Explora",
+      "list": ["Inicio", "Contacto", "Soporte"],
+      "id": 2
+    }    
   ],
   "icon": "www.imagen.com"
 }

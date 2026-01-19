@@ -10,8 +10,9 @@
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-body{
-  max-width: 99vw;
+html{
+  padding-top: 4em;
+  max-width: 100vw;
   overflow-x: hidden;
 }
 .txt{

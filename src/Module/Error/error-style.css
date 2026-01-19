@@ -1,0 +1,27 @@
+.error-section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-image: linear-gradient(to left, rgb(48, 57, 67), rgb(17, 22, 28));
+    
+}
+
+.error-msj{
+    color: rgba(113, 136, 156, 0.486);
+    font-size: 6em;
+    font-weight: bold;
+    transform: translateY(-1.5em);
+}
+
+.error-img{
+    width: 50em;
+    height: auto;
+    transform: translateY(-5em);
+    filter:grayscale(10) brightness(0.4) contrast(1.2);
+    opacity: 0.6;
+}
+.error-txt{
+    color: rgba(141, 159, 175, 0.713);
+}

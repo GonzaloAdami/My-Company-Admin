@@ -15,7 +15,7 @@ const About = () => {
           <span className="txt">{item.descripcion}</span>
           
         </div>
-        <button className='txt' style={{marginTop: "1em"}}>Comenzar</button>
+        <button className='txt btn-w' style={{marginTop: "1em"}}>Comenzar</button>
       </>
       ))}
     </section>

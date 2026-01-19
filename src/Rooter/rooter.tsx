@@ -6,6 +6,8 @@ import Configuracion from "../Module/configuracion/configuracion-plantilla-modul
 import Calculadora from "../Module/Calculadora/calculadora-component";
 import Register from "../Module/Register/register";
 import RegistroComisiones from "../Module/RegistroComisiones/registro-comisiones";
+import Error from "../Module/Error/error";
+
 const Router = () => {
   const routes = useRoutes([
     {
@@ -13,7 +15,7 @@ const Router = () => {
       element: <Home />
     },
     {
-      path: "/about",
+      path: ":modulo/Inicio",
       element: <About />
     },
     {
@@ -22,7 +24,7 @@ const Router = () => {
     },
     {
       path: "*",
-      element: <p>404 Not Found</p>
+      element: <Error mensaje={"404"}/>
     },
     {
       path: ":modulo/Calculadora",

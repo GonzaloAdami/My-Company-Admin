@@ -1,14 +1,16 @@
 .navbar {
   display: flex;
+  float: left;;
   align-items: center;
   justify-content: center;
-
-  position: relative;
+  height: 4em;
+  width: 100vw;
+  position: fixed;
   z-index: 1000;
   top: 0; 
-  left: 0 ;
-  gap: 60%;
-  background-image: linear-gradient(to left, rgb(10, 10, 10), rgb(46, 45, 45));
+  left: 0;
+  gap: 58vw;
+  background-image: linear-gradient(to left, rgb(14, 18, 34), rgb(43, 47, 52));
 }
 
 /* HAMBURGER */
@@ -96,7 +98,11 @@
 @media (max-width: 480px) {
   .navbar {
     width: 100%;
-    gap: 10%;
+    gap: 5%;
+    padding-left: 0.5em;
+  }
+  .navbar-input{
+    max-width: 15em;
   }
 }
 

@@ -18,16 +18,18 @@ const Navbar = ({ BODY_NAVBAR }: Props) => {
 
   return (
     <nav className="navbar">
-      {/* icono hamburguesa */}
-      <button
-        className={`hamburger ${menuOpen ? "open" : ""}`}
-        onClick={() => setMenuOpen(!menuOpen)}
-        aria-label="Abrir menú"
-      >
-        <span />
-        <span />
-        <span />
-      </button>
+     
+        {/* icono hamburguesa */}
+        <button style={{marginTop: "1em"}}
+          className={`hamburger ${menuOpen ? "open" : ""}`}
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Abrir menú"
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+      
 
       {/* menú desplegable */}
       <div className={`menu-panel ${menuOpen ? "open" : ""}`}>
