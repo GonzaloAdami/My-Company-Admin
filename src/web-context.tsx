@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from "react";
 
 /* =========================
    TIPOS
@@ -8,23 +14,23 @@ interface WebContextType {
   LOCAL: string;
   setLOCAL: (value: string) => void;
 
-  META: number | null;
-  setMETA: (value: number | null) => void;
+  META: number;
+  setMETA: (value: number) => void;
 
   COMISIONES: number[];
   setCOMISIONES: (value: number[]) => void;
 
-  EMPLEADOS: number | null;
-  setEMPLEADOS: (value: number | null) => void;
+  EMPLEADOS: number;
+  setEMPLEADOS: (value: number) => void;
 
   SUELDOS: number[];
   setSUELDOS: (value: number[]) => void;
 
-  DIAS: number | null;
-  setDIAS: (value: number | null) => void;
+  DIAS: number;
+  setDIAS: (value: number) => void;
 
-  MENSUALIDAD: number | null;
-  setMENSUALIDAD: (value: number | null) => void;
+  MENSUALIDAD: number;
+  setMENSUALIDAD: (value: number) => void;
 
   MP: boolean;
   setMP: (value: boolean) => void;
@@ -34,121 +40,129 @@ interface WebContextType {
 }
 
 /* =========================
+   SAFE LOCAL STORAGE
+========================= */
+
+const storageAvailable = (): boolean => {
+  try {
+    const test = "__test__";
+    localStorage.setItem(test, test);
+    localStorage.removeItem(test);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+const safeStorage = {
+  get<T>(key: string, fallback: T): T {
+    if (!storageAvailable()) return fallback;
+    try {
+      const value = localStorage.getItem(key);
+      return value !== null ? JSON.parse(value) : fallback;
+    } catch {
+      return fallback;
+    }
+  },
+  set(key: string, value: unknown) {
+    if (!storageAvailable()) return;
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch {}
+  },
+};
+
+/* =========================
    CONTEXT
 ========================= */
 
 const WebContext = createContext<WebContextType | null>(null);
 
 /* =========================
-   HELPERS
-========================= */
-
-const getString = (key: string): string =>
-  localStorage.getItem(key) || "";
-
-const getNumber = (key: string): number | null => {
-  const value = localStorage.getItem(key);
-  return value !== null ? Number(value) : null;
-};
-
-const getArray = (key: string): number[] => {
-  const value = localStorage.getItem(key);
-  return value ? JSON.parse(value) : [];
-};
-
-const getBoolean = (key: string): boolean =>
-  localStorage.getItem(key) === "true";
-
-/* =========================
    PROVIDER
 ========================= */
 
-export const WebProvider = ({ children }: { children: React.ReactNode }) => {
-  const [LOCAL, setLOCAL] = useState(() => getString("LOCAL"));
-  const [META, setMETA] = useState<number | null>(() => getNumber("META"));
-
- const [COMISIONES, setCOMISIONES] = useState<number[]>(() => {
-  const saved = localStorage.getItem("COMISIONES");
-  try {
-    const parsed = saved ? JSON.parse(saved) : [];
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
-});
-
-
-  const [EMPLEADOS, setEMPLEADOS] = useState<number | null>(() =>
-    getNumber("EMPLEADOS")
+export const WebProvider = ({ children }: { children: ReactNode }) => {
+  /* -------- DEFAULTS -------- */
+  const [LOCAL, setLOCAL] = useState<string>(
+    () => safeStorage.get("LOCAL", "")
   );
 
-  const [SUELDOS, setSUELDOS] = useState<number[]>(() =>
-    getArray("SUELDOS")
+  const [META, setMETA] = useState<number>(
+    () => safeStorage.get("META", 0)
   );
 
-  const [DIAS, setDIAS] = useState<number | null>(() =>
-    getNumber("DIAS")
+  const [COMISIONES, setCOMISIONES] = useState<number[]>(
+    () => safeStorage.get("COMISIONES", [])
   );
 
-  const [MENSUALIDAD, setMENSUALIDAD] = useState<number | null>(() =>
-    getNumber("MENSUALIDAD")
+  const [EMPLEADOS, setEMPLEADOS] = useState<number>(
+    () => safeStorage.get("EMPLEADOS", 1)
   );
 
-  const [MP, setMP] = useState<boolean>(() => getBoolean("MP"));
-
-  const [REGISTRO, setREGISTRO] = useState<number[]>(() =>
-    getArray("REGISTRO")
+  const [SUELDOS, setSUELDOS] = useState<number[]>(
+    () => safeStorage.get("SUELDOS", [])
   );
 
-  /* -------- LOCAL STORAGE -------- */
+  const [DIAS, setDIAS] = useState<number>(
+    () => safeStorage.get("DIAS", 31)
+  );
+
+  const [MENSUALIDAD, setMENSUALIDAD] = useState<number>(
+    () => safeStorage.get("MENSUALIDAD", 0)
+  );
+
+  const [MP, setMP] = useState<boolean>(
+    () => safeStorage.get("MP", false)
+  );
+
+  const [REGISTRO, setREGISTRO] = useState<number[]>(
+    () => safeStorage.get("REGISTRO", [])
+  );
+
+  /* =========================
+     PERSISTENCIA
+  ========================= */
 
   useEffect(() => {
-    localStorage.setItem("LOCAL", LOCAL);
+    safeStorage.set("LOCAL", LOCAL);
   }, [LOCAL]);
 
   useEffect(() => {
-    META !== null
-      ? localStorage.setItem("META", META.toString())
-      : localStorage.removeItem("META");
+    safeStorage.set("META", META);
   }, [META]);
 
-useEffect(() => {
-  localStorage.setItem(
-    "COMISIONES",
-    JSON.stringify(COMISIONES)
-  );
-}, [COMISIONES]);
-
+  useEffect(() => {
+    safeStorage.set("COMISIONES", COMISIONES);
+  }, [COMISIONES]);
 
   useEffect(() => {
-    EMPLEADOS !== null
-      ? localStorage.setItem("EMPLEADOS", EMPLEADOS.toString())
-      : localStorage.removeItem("EMPLEADOS");
+    safeStorage.set("EMPLEADOS", EMPLEADOS);
   }, [EMPLEADOS]);
 
   useEffect(() => {
-    localStorage.setItem("SUELDOS", JSON.stringify(SUELDOS));
+    safeStorage.set("SUELDOS", SUELDOS);
   }, [SUELDOS]);
 
   useEffect(() => {
-    DIAS !== null
-      ? localStorage.setItem("DIAS", DIAS.toString())
-      : localStorage.removeItem("DIAS");
+    safeStorage.set("DIAS", DIAS);
   }, [DIAS]);
 
   useEffect(() => {
-    MENSUALIDAD !== null
-      ? localStorage.setItem("MENSUALIDAD", MENSUALIDAD.toString())
-      : localStorage.removeItem("MENSUALIDAD");
+    safeStorage.set("MENSUALIDAD", MENSUALIDAD);
   }, [MENSUALIDAD]);
 
   useEffect(() => {
-    localStorage.setItem("MP", MP.toString());
+    safeStorage.set("MP", MP);
   }, [MP]);
 
   useEffect(() => {
-    localStorage.setItem("REGISTRO", JSON.stringify(REGISTRO));
+    safeStorage.set("REGISTRO", REGISTRO);
   }, [REGISTRO]);
+
+  /* =========================
+     PROVIDER
+  ========================= */
 
   return (
     <WebContext.Provider
@@ -185,7 +199,9 @@ useEffect(() => {
 export const useWebContext = () => {
   const context = useContext(WebContext);
   if (!context) {
-    throw new Error("useWebContext debe usarse dentro de WebProvider");
+    throw new Error(
+      "useWebContext debe usarse dentro de WebProvider"
+    );
   }
   return context;
 };

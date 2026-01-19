@@ -14,14 +14,25 @@
     padding: 0.2em 0.4em;
     
 }
+.header-card-header{
+  display: flex;
+  float: left;
+  justify-content: start;
+  align-items: start;
+  padding: 1em;
+  gap: 1em;
+}
 
 @media (max-width: 480px) {
-  .navbar {
-    width: 100%;
-    gap: 5%;
-    padding-left: 0.5em;
+  .register-card-body{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    width: 80vw;
   }
-  .navbar-input{
-    max-width: 15em;
+  .header-card-header{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
   }
 }

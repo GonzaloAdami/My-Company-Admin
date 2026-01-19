@@ -1,25 +1,25 @@
 {
   "options": [
     {
+      "id": 0,
       "name": "Comisiones",
-      "list": ["Configuracion", "Calculadora", "Ganancias"],
-      "id": 0
+      "list": ["Configuracion", "Calculadora", "Ganancias"]
     },
     {
+      "id": 1,
       "name": "Mensualidad",
-      "list": ["Configuracion", "Promedio diario", "Conteo"],
-      "id": 1
+      "list": ["Configuracion", "Promedio-diario", "Conteo"]
     },
     {
+      "id": 2,
       "name": "Registros",
-      "list": ["Configuracion", "Registro"],
-      "id": 2
+      "list": ["Configuracion", "Registro"]
     },
     {
+      "id": 3,
       "name": "Explora",
-      "list": ["Inicio", "Contacto", "Soporte"],
-      "id": 2
-    }    
+      "list": ["Inicio", "Contacto", "Soporte"]
+    }
   ],
   "icon": "www.imagen.com"
 }

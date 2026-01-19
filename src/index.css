@@ -191,4 +191,13 @@ select{
     align-items: center;
     gap: 1.5em;
   }
+
+  select{
+    max-width: 30em;
+    min-width: 15em;
+  }
+
+  input{
+    width: 18em;
+  }
 }

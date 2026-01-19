@@ -133,7 +133,7 @@ const GenCards = ({
                         key={index}
                         className="column g1 p1 register-card-body"
                     >
-                        <header className="float g1 start">
+                        <header className="header-card-header">
                             <span className="txt title">
                                 {title} :{" "}
                                 <span className={getVentasClass(item)}>

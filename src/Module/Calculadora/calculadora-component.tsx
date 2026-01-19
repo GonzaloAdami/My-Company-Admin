@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useWebContext } from "../../web-context";
 import calculadora_comisiones from "../../comision-formulas";
 import "./calculadora-style.css";
@@ -13,7 +13,7 @@ const Calculadora = () => {
     COMISIONES,
     setCOMISIONES,
   } = useWebContext();
-;
+  ;
 
   const [showMenu, setShowMenu] = useState(false);
   const [totalBombas, setTotalBombas] = useState(0);
@@ -24,6 +24,7 @@ const Calculadora = () => {
   /* 🔹 MP / LP */
   const [mpValue, setMpValue] = useState<number | "">("");
   const [lpValue, setLpValue] = useState<number | "">("");
+  const [errorLocal, setErrorLocal] = useState(false);
 
   const bombas = [
     { value: 60000, premio: 2000 },
@@ -65,7 +66,7 @@ const Calculadora = () => {
       : null;
 
 
-      
+
   /* =========================
      HELPERS
   ========================= */
@@ -75,6 +76,10 @@ const Calculadora = () => {
 
   const parseNumber = (value: string) =>
     Number(value.replace(/\D/g, ""));
+
+  useEffect(() => {
+  if (LOCAL) setErrorLocal(false);
+}, [LOCAL]);
 
   /* =========================
      HANDLERS
@@ -92,6 +97,14 @@ const Calculadora = () => {
   };
 
   const handleVentasChange = (value: string) => {
+    if (!LOCAL) {
+      setErrorLocal(true);
+
+      // auto hide del error
+      setTimeout(() => setErrorLocal(false), 7500);
+      return;
+    }
+
     if (value.trim() === "") {
       setVentas("");
       setComisiones("");
@@ -117,33 +130,33 @@ const Calculadora = () => {
     return raw === "" ? "" : Number(raw);
   };
 
-const handleGuardarComisiones = () => {
-  const baseComisiones = Number(comisiones) || 0;
-  const baseExtras = Number(extras) || 0;
-  const baseBombas = totalBombas;
-  const bonoMeta = llegaMetaDiaria ? 900 : 0;
+  const handleGuardarComisiones = () => {
+    const baseComisiones = Number(comisiones) || 0;
+    const baseExtras = Number(extras) || 0;
+    const baseBombas = totalBombas;
+    const bonoMeta = llegaMetaDiaria ? 900 : 0;
 
-  const totalAGuardar =
-    baseComisiones +
-    baseExtras +
-    baseBombas +
-    bonoMeta;
+    const totalAGuardar =
+      baseComisiones +
+      baseExtras +
+      baseBombas +
+      bonoMeta;
 
-  if (totalAGuardar === 0) return;
+    if (totalAGuardar === 0) return;
 
-  setCOMISIONES([...COMISIONES, totalAGuardar]);
-};
+    setCOMISIONES([...COMISIONES, totalAGuardar]);
+  };
 
-const handleResetFormulario = () => {
-  setVentas("");
-  setComisiones("");
-  setExtras("");
-  setTotalBombas(0);
-  setMpValue("");
-  setLpValue("");
-  setShowMenu(false);
-  setSaved(false);
-};
+  const handleResetFormulario = () => {
+    setVentas("");
+    setComisiones("");
+    setExtras("");
+    setTotalBombas(0);
+    setMpValue("");
+    setLpValue("");
+    setShowMenu(false);
+    setSaved(false);
+  };
 
 
   /* =========================
@@ -152,6 +165,12 @@ const handleResetFormulario = () => {
 
   return (
     <section className="form column g1 p1">
+      {errorLocal && (
+        <div className="alerta-local">
+          Debes seleccionar un local para obtener las comisiones
+        </div>
+      )}
+
       <header className="calculadora-header">
         <h1>Comisiones de {LOCAL || "Local no seleccionado"}</h1>
 
@@ -241,30 +260,30 @@ const handleResetFormulario = () => {
                 ${totalExtras.toLocaleString()}
               </span>
             </span>
-              
+
             {llegaMetaDiaria ?
-              <> 
+              <>
                 <span className="txt-stats bg-txt">
-                  Promedio diario: 
+                  Promedio diario:
                   <span style={{ color: "rgb(82, 243, 174)" }}>
                     900
                   </span>
-                </span> 
-                <div className="column g1"> 
+                </span>
+                <div className="column g1">
                   <span className="txt-stats bg-txt">
-                    Total Final: 
+                    Total Final:
                     <span style={{ color: "rgb(82, 243, 174)" }}>
                       ${(totalFinal + (900 * empleados)).toLocaleString()}
                     </span>
-                  </span> 
-                </div> 
-              </>: 
+                  </span>
+                </div>
+              </> :
               <span className="txt-stats bg-txt">
-                Total Final: 
+                Total Final:
                 <span style={{ color: "rgb(82, 243, 174)" }}>
                   ${totalFinal.toLocaleString()}
                 </span>
-              </span> }
+              </span>}
 
             {/* 🔹 TARJETA */}
             {MP && tarjeta !== null && (
@@ -280,48 +299,48 @@ const handleResetFormulario = () => {
 
         <div>
           <strong>
-            Total Ventas :  
+            Total Ventas :
             <span style={{ color: "rgb(82, 243, 174)" }}>
-               ${ventas.toLocaleString()}
+              ${ventas.toLocaleString()}
             </span>
             {metaDiaria && (
               <span style={{ marginLeft: "8px", color: llegaMetaDiaria ? "green" : "red", }} >
-                 {llegaMetaDiaria ? 
-                      <span className="true">META</span> 
-                    :    
-                      <span className="false">META</span>
-                  } 
-                </span>
-               )}
+                {llegaMetaDiaria ?
+                  <span className="true">META</span>
+                  :
+                  <span className="false">META</span>
+                }
+              </span>
+            )}
           </strong>
         </div>
 
         <div style={{ marginTop: "8px" }}>
-<div style={{ marginTop: "8px", display: "flex", gap: "1em" }}>
-  <button
-    className={`btn-w ${saved ? "btn-saved" : ""}`}
-    style={{ maxWidth: "30em" }}
-    onClick={() => {
-      setSaved(true);
-      setTimeout(() => setSaved(false), 2000);
-      handleGuardarComisiones();
-    }}
-  >
-    Guardar Comisiones
-  </button>
+          <div style={{ marginTop: "8px", display: "flex", gap: "1em" }}>
+            <button
+              className={`btn-w ${saved ? "btn-saved" : ""}`}
+              style={{ maxWidth: "30em" }}
+              onClick={() => {
+                setSaved(true);
+                setTimeout(() => setSaved(false), 2000);
+                handleGuardarComisiones();
+              }}
+            >
+              Guardar Comisiones
+            </button>
 
-  <button
-    className="btn-w"
-    style={{ maxWidth: "30em", backgroundImage: "linear-gradient(to left, rgb(86, 1, 1), rgb(142, 2, 2))", color: "aliceblue" }}
-    onClick={handleResetFormulario}
-  >
-    Limpiar formulario
-  </button>
-</div>
+            <button
+              className="btn-w"
+              style={{ maxWidth: "30em", backgroundImage: "linear-gradient(to left, rgb(86, 1, 1), rgb(142, 2, 2))", color: "aliceblue" }}
+              onClick={handleResetFormulario}
+            >
+              Limpiar formulario
+            </button>
+          </div>
 
 
 
-</div>
+        </div>
 
       </header>
 
@@ -330,11 +349,12 @@ const handleResetFormulario = () => {
         <label className="column g1 title">
           <span className="txt">Ventas</span>
           <input
-            className="bg-dark"
+            className={`bg-dark ${errorLocal ? "input-error vibrar" : ""}`}
             type="text"
             value={formatNumber(ventas)}
             onChange={(e) => handleVentasChange(e.target.value)}
           />
+
         </label>
 
         <label className="column g1">
