@@ -25,6 +25,12 @@ interface WebContextType {
 
   MENSUALIDAD: number | null;
   setMENSUALIDAD: (value: number | null) => void;
+
+  MP: boolean;
+  setMP: (value: boolean) => void;
+
+  REGISTRO: number[];
+  setREGISTRO: (value: number[]) => void;
 }
 
 /* =========================
@@ -37,7 +43,7 @@ const WebContext = createContext<WebContextType | null>(null);
    HELPERS
 ========================= */
 
-const getString = (key: string) =>
+const getString = (key: string): string =>
   localStorage.getItem(key) || "";
 
 const getNumber = (key: string): number | null => {
@@ -50,14 +56,15 @@ const getArray = (key: string): number[] => {
   return value ? JSON.parse(value) : [];
 };
 
+const getBoolean = (key: string): boolean =>
+  localStorage.getItem(key) === "true";
+
 /* =========================
    PROVIDER
 ========================= */
 
 export const WebProvider = ({ children }: { children: React.ReactNode }) => {
-  /* -------- STATES -------- */
-
-  const [LOCAL, setLOCAL] = useState<string>(() => getString("LOCAL"));
+  const [LOCAL, setLOCAL] = useState(() => getString("LOCAL"));
   const [META, setMETA] = useState<number | null>(() => getNumber("META"));
   const [COMISIONES, setCOMISIONES] = useState<number | null>(() =>
     getNumber("COMISIONES")
@@ -68,9 +75,15 @@ export const WebProvider = ({ children }: { children: React.ReactNode }) => {
   const [SUELDOS, setSUELDOS] = useState<number[]>(() =>
     getArray("SUELDOS")
   );
-  const [DIAS, setDIAS] = useState<number | null>(() => getNumber("DIAS"));
+  const [DIAS, setDIAS] = useState<number | null>(() =>
+    getNumber("DIAS")
+  );
   const [MENSUALIDAD, setMENSUALIDAD] = useState<number | null>(() =>
     getNumber("MENSUALIDAD")
+  );
+  const [MP, setMP] = useState<boolean>(() => getBoolean("MP"));
+  const [REGISTRO, setREGISTRO] = useState<number[]>(() =>
+    getArray("REGISTRO")
   );
 
   /* -------- LOCAL STORAGE -------- */
@@ -113,7 +126,13 @@ export const WebProvider = ({ children }: { children: React.ReactNode }) => {
       : localStorage.removeItem("MENSUALIDAD");
   }, [MENSUALIDAD]);
 
-  /* -------- PROVIDER -------- */
+  useEffect(() => {
+    localStorage.setItem("MP", MP.toString());
+  }, [MP]);
+
+  useEffect(() => {
+    localStorage.setItem("REGISTRO", JSON.stringify(REGISTRO));
+  }, [REGISTRO]);
 
   return (
     <WebContext.Provider
@@ -132,6 +151,10 @@ export const WebProvider = ({ children }: { children: React.ReactNode }) => {
         setDIAS,
         MENSUALIDAD,
         setMENSUALIDAD,
+        MP,
+        setMP,
+        REGISTRO,
+        setREGISTRO,
       }}
     >
       {children}

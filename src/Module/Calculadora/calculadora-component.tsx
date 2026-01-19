@@ -9,6 +9,7 @@ const Calculadora = () => {
     META,
     DIAS,
     EMPLEADOS,
+    MP,
   } = useWebContext();
 
   const [showMenu, setShowMenu] = useState(false);
@@ -16,6 +17,10 @@ const Calculadora = () => {
   const [comisiones, setComisiones] = useState<number | "">("");
   const [extras, setExtras] = useState<number | "">("");
   const [ventas, setVentas] = useState<number | "">("");
+
+  /* 🔹 MP / LP */
+  const [mpValue, setMpValue] = useState<number | "">("");
+  const [lpValue, setLpValue] = useState<number | "">("");
 
   const bombas = [
     { value: 60000, premio: 2000 },
@@ -28,23 +33,52 @@ const Calculadora = () => {
     { value: 280000, premio: 14500 },
   ];
 
-  // 🔹 Valores derivados
+  /* =========================
+     DERIVADOS
+  ========================= */
+
   const empleados = EMPLEADOS ?? 1;
   const dias = DIAS ?? 31;
 
   const metaMensual = META;
-  const metaDiaria = metaMensual ? metaMensual / dias : null;
+  const metaDiaria = metaMensual
+    ? Math.ceil(metaMensual / dias)
+    : null;
+
+
 
   const totalComisiones = Number(comisiones) || 0;
   const totalExtras = Number(extras) || 0;
-  const totalFinal = totalBombas + ((totalComisiones + totalExtras) * empleados);
+
+  const totalFinal =
+    totalBombas + (totalComisiones + totalExtras) * empleados;
 
   const llegaMetaDiaria =
     metaDiaria !== null && ventas !== "" ? ventas >= metaDiaria : false;
 
+  const tarjeta =
+    mpValue !== "" && lpValue !== ""
+      ? Math.abs(lpValue - mpValue)
+      : null;
+
+  /* =========================
+     HELPERS
+  ========================= */
+
+  const formatNumber = (value: number | "") =>
+    value === "" ? "" : value.toLocaleString("es-AR");
+
+  const parseNumber = (value: string) =>
+    Number(value.replace(/\D/g, ""));
+
+  /* =========================
+     HANDLERS
+  ========================= */
+
   const newComisiones = (ventas: number) => {
     const resultado = calculadora_comisiones(ventas, LOCAL);
     setVentas(ventas);
+
     if (typeof resultado === "number") {
       setComisiones(resultado);
     } else {
@@ -53,21 +87,16 @@ const Calculadora = () => {
   };
 
   const handleVentasChange = (value: string) => {
-    // borra todo → input vacío
     if (value.trim() === "") {
       setVentas("");
       setComisiones("");
       return;
     }
 
-    const numericValue = Number(value.replace(/\D/g, ""));
+    const numericValue = parseNumber(value);
     setVentas(numericValue);
     newComisiones(numericValue);
   };
-
-
-  const formatNumber = (value: number | "") =>
-    value === "" ? "" : value.toLocaleString("es-AR");
 
   const handleExtrasChange = (value: string) => {
     if (value.trim() === "") {
@@ -75,36 +104,54 @@ const Calculadora = () => {
       return;
     }
 
-    const numericValue = Number(value.replace(/\D/g, ""));
-    setExtras(numericValue);
+    setExtras(parseNumber(value));
   };
 
+  const parseNumberOrEmpty = (value: string): number | "" => {
+    const raw = value.replace(/\D/g, "");
+    return raw === "" ? "" : Number(raw);
+  };
+
+  /* =========================
+     RENDER
+  ========================= */
 
   return (
     <section className="form column g1 p1">
       <header className="calculadora-header">
         <h1>Comisiones de {LOCAL || "Local no seleccionado"}</h1>
 
-        {/* 🔹 META */}
+        {/* META */}
         {metaMensual && (
           <article className="meta float g1">
-            <h2 className="txt-stats bg-txt-externo">Meta mensual: <span style={{ color: "rgb(82, 189, 243)" }}>${metaMensual.toLocaleString()}</span></h2>
-            <span className="txt-stats bg-txt-externo">Meta diaria: <span style={{ color: "rgb(82, 243, 174)" }}>${metaDiaria!.toLocaleString()}</span></span>
+            <h2 className="txt-stats bg-txt-externo">
+              Meta mensual:
+              <span style={{ color: "rgb(82, 189, 243)" }}>
+                ${metaMensual.toLocaleString()}
+              </span>
+            </h2>
+
+            <span className="txt-stats bg-txt-externo">
+              Meta diaria:
+              <span style={{ color: "rgb(82, 243, 174)" }}>
+                ${metaDiaria!.toLocaleString("es-AR")}
+              </span>
+            </span>
           </article>
         )}
 
         <main className="body-comisiones column g1">
-
-
-          {/* 🔹 BOMBAS */}
+          {/* BOMBAS */}
           <article className={`bombas ${showMenu ? "open" : ""}`}>
-            
+            <button
+              type="button"
+              onClick={() => setShowMenu(!showMenu)}
+              className="select-bomb"
+            >
+              Seleccionar las bombas
+            </button>
 
-              <button type="button" onClick={() => setShowMenu(!showMenu)} className="select-bomb">
-                Seleccionar las bombas
-              </button>
-              <main className="bombas-column">
-                  
+            <main className="bombas-column">
               {showMenu &&
                 bombas.map((bomba) => (
                   <article key={bomba.value} className="float g1 p1 bomb-item">
@@ -118,7 +165,9 @@ const Calculadora = () => {
                       +
                     </button>
 
-                    <span className="txt">${bomba.value.toLocaleString()}</span>
+                    <span className="txt">
+                      ${bomba.value.toLocaleString()}
+                    </span>
 
                     <button
                       type="button"
@@ -133,94 +182,139 @@ const Calculadora = () => {
                     </button>
                   </article>
                 ))}
-              </main>
-           
-
+            </main>
           </article>
 
+          {/* STATS */}
           <main className="stats">
-            <span className="txt-stats bg-txt">Total Bombas: <span style={{ color: "rgb(82, 189, 243)" }}>${totalBombas.toLocaleString()}</span></span>
+            <span className="txt-stats bg-txt">
+              Total Bombas:
+              <span style={{ color: "rgb(82, 189, 243)" }}>
+                ${totalBombas.toLocaleString()}
+              </span>
+            </span>
 
-            {EMPLEADOS !== null && EMPLEADOS > 1 ? (
-              <>
-                <span className="txt-stats bg-txt">
-                  Total Comisiones (Individual): <span style={{ color: "rgb(82, 189, 243)" }}>${totalComisiones.toLocaleString()}
-                  </span></span>
-                <span className="txt-stats bg-txt">
-                  Total Comisiones (Grupal): <span style={{ color: "rgb(82, 189, 243)" }}>${(totalComisiones * (empleados)).toLocaleString()}
-                  </span></span>
-              </>
-            ) : (
+            <span className="txt-stats bg-txt">
+              Total Comisiones:
+              <span style={{ color: "rgb(82, 189, 243)" }}>
+                ${totalComisiones.toLocaleString()}
+              </span>
+            </span>
 
+            <span className="txt-stats bg-txt">
+              Total Extras:
+              <span style={{ color: "rgb(82, 189, 243)" }}>
+                ${totalExtras.toLocaleString()}
+              </span>
+            </span>
+              
+            {llegaMetaDiaria ?
+              <> 
+                <span className="txt-stats bg-txt">
+                  Promedio diario: 
+                  <span style={{ color: "rgb(82, 243, 174)" }}>
+                    900
+                  </span>
+                </span> 
+                <div className="column g1"> 
+                  <span className="txt-stats bg-txt">
+                    Total Final: 
+                    <span style={{ color: "rgb(82, 243, 174)" }}>
+                      ${(totalFinal + (900 * empleados)).toLocaleString()}
+                    </span>
+                  </span> 
+                </div> 
+              </>: 
               <span className="txt-stats bg-txt">
-                Total Comisiones: <span style={{ color: "rgb(82, 189, 243)" }}>${totalComisiones.toLocaleString()}
-                </span></span>
-            )}
-
-
-
-            <span className="txt-stats bg-txt">Total Extras: <span style={{ color: "rgb(82, 189, 243)" }}>${totalExtras.toLocaleString()}</span></span>
-
-            {/* 🔹 TOTAL FINAL + META */}
-            
-              {llegaMetaDiaria ?
-                <>
-                  <span className="txt-stats bg-txt">Promedio diario: <span style={{ color: "rgb(82, 243, 174)" }}>900</span></span>
-                  <div className="column g1">
-
-                    <span className="txt-stats bg-txt">Total Final: <span style={{ color: "rgb(82, 243, 174)" }}>${(totalFinal + (900 * empleados)).toLocaleString()}</span></span>
-                  </div>
-                    </>:
-                  <span className="txt-stats bg-txt">Total Final: <span style={{ color: "rgb(82, 243, 174)" }}>${totalFinal.toLocaleString()}</span></span>
-               
-              }
-
-
-          </main>
-
-        </main>
-        <div>
-          <strong>Total Ventas:<span style={{ color: "rgb(82, 243, 174)" }}> ${ventas.toLocaleString()}</span></strong>
-             {metaDiaria && (
-                <span
-                  style={{
-                    marginLeft: "8px",
-                    color: llegaMetaDiaria ? "green" : "red",
-                  }}
-                >
-                  {llegaMetaDiaria
-                    ? <span className="true">META</span>
-                    : <span className="false">META</span>
-                  }
+                Total Final: 
+                <span style={{ color: "rgb(82, 243, 174)" }}>
+                  ${totalFinal.toLocaleString()}
                 </span>
-              )}
+              </span> }
+              
+            {/* 🔹 TARJETA */}
+            {MP && tarjeta !== null && (
+              <span className="txt-stats bg-txt">
+                Tarjeta:
+                <span style={{ color: "rgb(82, 189, 243)" }}>
+                  ${tarjeta.toLocaleString()}
+                </span>
+              </span>
+            )}
+          </main>
+        </main>
+
+        <div>
+          <strong>
+            Total Ventas :  
+            <span style={{ color: "rgb(82, 243, 174)" }}>
+               ${ventas.toLocaleString()}
+            </span>
+            {metaDiaria && (
+              <span style={{ marginLeft: "8px", color: llegaMetaDiaria ? "green" : "red", }} >
+                 {llegaMetaDiaria ? 
+                      <span className="true">META</span> 
+                    :    
+                      <span className="false">META</span>
+                  } 
+                </span>
+               )}
+          </strong>
         </div>
       </header>
 
+      {/* INPUTS */}
       <footer className="calculadora-footer">
         <label className="column g1 title">
-          <span className="txt"> Comisiones </span>
+          <span className="txt">Ventas</span>
           <input
             className="bg-dark"
             type="text"
             value={formatNumber(ventas)}
-            placeholder="Ingrese ventas"
             onChange={(e) => handleVentasChange(e.target.value)}
           />
-
         </label>
 
         <label className="column g1">
-          <span className="txt"> Extras </span>
+          <span className="txt">Extras</span>
           <input
-          className="bg-dark"
+            className="bg-dark"
             type="text"
             value={formatNumber(extras)}
-            placeholder="Ingrese extras"
             onChange={(e) => handleExtrasChange(e.target.value)}
           />
-
         </label>
+
+        {/* 🔹 MP / LP */}
+        {MP && (
+          <>
+            <label className="column g1">
+              <span className="txt">MP</span>
+              <input
+                className="bg-dark"
+                type="text"
+                value={formatNumber(mpValue)}
+                onChange={(e) =>
+                  setMpValue(parseNumberOrEmpty(e.target.value))
+                }
+              />
+
+            </label>
+
+            <label className="column g1">
+              <span className="txt">LP</span>
+              <input
+                className="bg-dark"
+                type="text"
+                value={formatNumber(lpValue)}
+                onChange={(e) =>
+                  setLpValue(parseNumberOrEmpty(e.target.value))
+                }
+              />
+
+            </label>
+          </>
+        )}
       </footer>
     </section>
   );

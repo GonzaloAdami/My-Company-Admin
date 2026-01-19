@@ -1,52 +1,99 @@
 import { useState } from "react";
 import { useWebContext } from "../web-context";
+import "./gen-form-style.css";
+
 interface GenFormConfigProps {
   modulo: string;
 }
 
 const config_options = {
   comisiones: ["Empleados", "Sueldo", "CalcularMP"],
-  mensualidad: ["Meta", "Dias"]
+  mensualidad: ["Meta", "Dias"],
 };
 
 type ConfigKey = keyof typeof config_options;
 
-const GenFormConfig = ({ modulo }: GenFormConfigProps) => {
+/* =========================
+  HELPERS
+========================= */
 
-  const { setEMPLEADOS, setSUELDOS } = useWebContext();
-  const context = Object.keys(config_options).find(key =>
+const formatNumber = (value: number | "") =>
+  value === "" ? "" : new Intl.NumberFormat("es-AR").format(value);
+
+const parseNumber = (value: string) =>
+  value.replace(/\./g, "");
+
+/* =========================
+  COMPONENTE
+========================= */
+
+const GenFormConfig = ({ modulo }: GenFormConfigProps) => {
+  const {
+    setEMPLEADOS,
+    setSUELDOS,
+    setMETA,
+    setDIAS,
+    MP,
+    setMP,
+  } = useWebContext();
+
+  /* =========================
+    CONTEXTO DEL MÓDULO
+  ========================= */
+
+  const context = Object.keys(config_options).find((key) =>
     key.toLowerCase().includes(modulo.toLowerCase())
   ) as ConfigKey | undefined;
 
   const fields = context ? config_options[context] : [];
 
+  /* =========================
+    ESTADOS LOCALES
+  ========================= */
+
   const [empleados, setEmpleados] = useState(0);
   const [sueldos, setSueldos] = useState<number[]>([]);
+  const [values, setValues] = useState<Record<string, number | "">>({});
 
-  // 🔹 empleados
-  const handleEmpleadosChange = (value: number) => {
-    setEmpleados(value);
-    setSueldos(Array(value).fill(0));
+  /* =========================
+    MAPA DE SETTERS
+  ========================= */
 
-    setEMPLEADOS(value)
-    setSUELDOS(Array(value).fill(0))
+  const setterMap: Record<string, (value: number) => void> = {
+    Meta: setMETA,
+    Dias: setDIAS,
   };
 
-  // 🔹 sueldo por empleado
+  /* =========================
+    HANDLERS
+  ========================= */
+
+  const handleEmpleadosChange = (value: number) => {
+    setEmpleados(value);
+
+    const base = Array(value).fill(0);
+    setSueldos(base);
+
+    setEMPLEADOS(value);
+    setSUELDOS(base);
+  };
+
   const handleSueldoChange = (index: number, value: number) => {
     const copy = [...sueldos];
     copy[index] = value;
+
     setSueldos(copy);
-    setSUELDOS(copy)
-    
-    
-    
+    setSUELDOS(copy);
   };
+
+  /* =========================
+    RENDER
+  ========================= */
 
   return (
     <>
-      {fields.map(item => {
-        // INPUT EMPLEADOS
+      {fields.map((item) => {
+        /* -------- EMPLEADOS -------- */
         if (item === "Empleados") {
           return (
             <label key={item} className="column">
@@ -54,13 +101,15 @@ const GenFormConfig = ({ modulo }: GenFormConfigProps) => {
               <input
                 type="number"
                 min={0}
-                onChange={e => handleEmpleadosChange(Number(e.target.value))}
+                onChange={(e) =>
+                  handleEmpleadosChange(Number(e.target.value))
+                }
               />
             </label>
           );
         }
 
-        // INPUT SUELDOS DINÁMICOS
+        /* -------- SUELDOS -------- */
         if (item === "Sueldo" && empleados > 0) {
           return (
             <div key={item} className="column g1">
@@ -68,11 +117,18 @@ const GenFormConfig = ({ modulo }: GenFormConfigProps) => {
                 <label key={index} className="column mt-1">
                   <span className="f2">Empleado {index + 1}</span>
                   <input
-                    type="number"
+                    type="text"
+                    inputMode="numeric"
                     placeholder={`Sueldo Empleado ${index + 1}`}
-                    onChange={e =>
-                      handleSueldoChange(index, Number(e.target.value))
-                    }
+                    value={formatNumber(sueldos[index] ?? "")}
+                    onChange={(e) => {
+                      const raw = parseNumber(e.target.value);
+                      const num = raw === "" ? 0 : Number(raw);
+
+                      if (!isNaN(num)) {
+                        handleSueldoChange(index, num);
+                      }
+                    }}
                   />
                 </label>
               ))}
@@ -80,16 +136,49 @@ const GenFormConfig = ({ modulo }: GenFormConfigProps) => {
           );
         }
 
-        // INPUT NORMAL
-        return (
-          <label key={item} className="column">
-            <span className="f2">{item}</span>
-            <input
-              type="number"
-              placeholder={item}
-            />
-          </label>
-        );
+        /* -------- SWITCH MP (EXCEPCIÓN) -------- */
+        if (item === "CalcularMP") {
+          return (
+            <label key={item} className="switch-container">
+              <span className="f2">Calcular MercadoPago</span>
+
+              <div className="switch">
+                <input
+                  type="checkbox"
+                  checked={MP}
+                  onChange={(e) => setMP(e.target.checked)}
+                />
+                <span className="slider" />
+              </div>
+            </label>
+          );
+        }
+
+        /* -------- INPUT NUMÉRICO GENÉRICO -------- */
+        if (item in setterMap) {
+          return (
+            <label key={item} className="column">
+              <span className="f2">{item}</span>
+              <input
+                type="text"
+                inputMode="numeric"
+                placeholder={item}
+                value={formatNumber(values[item] ?? "")}
+                onChange={(e) => {
+                  const raw = parseNumber(e.target.value);
+                  const num = raw === "" ? "" : Number(raw);
+
+                  if (num === "" || !isNaN(num)) {
+                    setValues((prev) => ({ ...prev, [item]: num }));
+                    if (num !== "") setterMap[item](num);
+                  }
+                }}
+              />
+            </label>
+          );
+        }
+
+        return null;
       })}
     </>
   );

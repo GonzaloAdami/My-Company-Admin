@@ -8,11 +8,11 @@
 
 /* HEADER */
 .calculadora-header{
-    background-image: linear-gradient(to left , rgb(0, 0, 0), rgb(34, 33, 33));
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-image: linear-gradient(to left , rgb(0, 0, 0), rgb(34, 33, 33));
     padding: 1.6em;
     gap: 0.8em;
     box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.25);
@@ -150,18 +150,19 @@
 }
 
 /* FOOTER */
-.calculadora-footer{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.calculadora-footer {
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    justify-content: center;          /* empuja el grid a la derecha */
     gap: 1.6em;
     padding: 0.8em;
-    width: 100vw;
-    background-image: linear-gradient(to left , rgb(0, 0, 0), rgb(34, 33, 33));
-    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.25);
+    width: 100%;
     max-width: 48vw;
-    border-radius:5px;
+    background-image: linear-gradient(to left, rgb(0, 0, 0), rgb(34, 33, 33));
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
 }
+
 
 @media (max-width: 900px) {
   .card-container {

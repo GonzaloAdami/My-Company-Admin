@@ -1,0 +1,20 @@
+.register-card-body{
+    background-image: linear-gradient(to left , rgb(0, 0, 0), rgb(34, 33, 33));
+    padding: 1.6em;
+    gap: 0.8em;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.25);
+    border-radius: 12px;
+    width: 35vw;
+}
+.registro-dia{
+    background-color: rgb(48, 57, 67);
+    color: aliceblue;
+    border-radius: 5px;
+    font-weight: bold;
+    padding: 0.2em 0.4em;
+    
+}
+
+.registro-section{
+    
+}
