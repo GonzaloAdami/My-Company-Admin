@@ -5,6 +5,7 @@ import Home from "../Components/Home/home-component";
 import Configuracion from "../Module/configuracion/configuracion-plantilla-modulo";
 import Calculadora from "../Module/Calculadora/calculadora-component";
 import Register from "../Module/Register/register";
+import RegistroComisiones from "../Module/RegistroComisiones/registro-comisiones";
 const Router = () => {
   const routes = useRoutes([
     {
@@ -30,6 +31,10 @@ const Router = () => {
     {
       path: ":modulo/Registro",
       element: <Register />
+    },
+     {
+      path: ":modulo/Ganancias",
+      element: <RegistroComisiones />
     }
   ]);
 

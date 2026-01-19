@@ -11,8 +11,8 @@ interface WebContextType {
   META: number | null;
   setMETA: (value: number | null) => void;
 
-  COMISIONES: number | null;
-  setCOMISIONES: (value: number | null) => void;
+  COMISIONES: number[];
+  setCOMISIONES: (value: number[]) => void;
 
   EMPLEADOS: number | null;
   setEMPLEADOS: (value: number | null) => void;
@@ -66,22 +66,36 @@ const getBoolean = (key: string): boolean =>
 export const WebProvider = ({ children }: { children: React.ReactNode }) => {
   const [LOCAL, setLOCAL] = useState(() => getString("LOCAL"));
   const [META, setMETA] = useState<number | null>(() => getNumber("META"));
-  const [COMISIONES, setCOMISIONES] = useState<number | null>(() =>
-    getNumber("COMISIONES")
-  );
+
+ const [COMISIONES, setCOMISIONES] = useState<number[]>(() => {
+  const saved = localStorage.getItem("COMISIONES");
+  try {
+    const parsed = saved ? JSON.parse(saved) : [];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+});
+
+
   const [EMPLEADOS, setEMPLEADOS] = useState<number | null>(() =>
     getNumber("EMPLEADOS")
   );
+
   const [SUELDOS, setSUELDOS] = useState<number[]>(() =>
     getArray("SUELDOS")
   );
+
   const [DIAS, setDIAS] = useState<number | null>(() =>
     getNumber("DIAS")
   );
+
   const [MENSUALIDAD, setMENSUALIDAD] = useState<number | null>(() =>
     getNumber("MENSUALIDAD")
   );
+
   const [MP, setMP] = useState<boolean>(() => getBoolean("MP"));
+
   const [REGISTRO, setREGISTRO] = useState<number[]>(() =>
     getArray("REGISTRO")
   );
@@ -98,11 +112,13 @@ export const WebProvider = ({ children }: { children: React.ReactNode }) => {
       : localStorage.removeItem("META");
   }, [META]);
 
-  useEffect(() => {
-    COMISIONES !== null
-      ? localStorage.setItem("COMISIONES", COMISIONES.toString())
-      : localStorage.removeItem("COMISIONES");
-  }, [COMISIONES]);
+useEffect(() => {
+  localStorage.setItem(
+    "COMISIONES",
+    JSON.stringify(COMISIONES)
+  );
+}, [COMISIONES]);
+
 
   useEffect(() => {
     EMPLEADOS !== null

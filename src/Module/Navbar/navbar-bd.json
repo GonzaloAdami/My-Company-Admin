@@ -2,7 +2,7 @@
   "options": [
     {
       "name": "Comisiones",
-      "list": ["Configuracion", "Calculadora"],
+      "list": ["Configuracion", "Calculadora", "Ganancias"],
       "id": 0
     },
     {

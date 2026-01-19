@@ -10,14 +10,17 @@ const Calculadora = () => {
     DIAS,
     EMPLEADOS,
     MP,
+    COMISIONES,
+    setCOMISIONES,
   } = useWebContext();
+;
 
   const [showMenu, setShowMenu] = useState(false);
   const [totalBombas, setTotalBombas] = useState(0);
   const [comisiones, setComisiones] = useState<number | "">("");
   const [extras, setExtras] = useState<number | "">("");
   const [ventas, setVentas] = useState<number | "">("");
-
+  const [saved, setSaved] = useState(false);
   /* 🔹 MP / LP */
   const [mpValue, setMpValue] = useState<number | "">("");
   const [lpValue, setLpValue] = useState<number | "">("");
@@ -61,6 +64,8 @@ const Calculadora = () => {
       ? Math.abs(lpValue - mpValue)
       : null;
 
+
+      
   /* =========================
      HELPERS
   ========================= */
@@ -111,6 +116,35 @@ const Calculadora = () => {
     const raw = value.replace(/\D/g, "");
     return raw === "" ? "" : Number(raw);
   };
+
+const handleGuardarComisiones = () => {
+  const baseComisiones = Number(comisiones) || 0;
+  const baseExtras = Number(extras) || 0;
+  const baseBombas = totalBombas;
+  const bonoMeta = llegaMetaDiaria ? 900 : 0;
+
+  const totalAGuardar =
+    baseComisiones +
+    baseExtras +
+    baseBombas +
+    bonoMeta;
+
+  if (totalAGuardar === 0) return;
+
+  setCOMISIONES([...COMISIONES, totalAGuardar]);
+};
+
+const handleResetFormulario = () => {
+  setVentas("");
+  setComisiones("");
+  setExtras("");
+  setTotalBombas(0);
+  setMpValue("");
+  setLpValue("");
+  setShowMenu(false);
+  setSaved(false);
+};
+
 
   /* =========================
      RENDER
@@ -231,7 +265,7 @@ const Calculadora = () => {
                   ${totalFinal.toLocaleString()}
                 </span>
               </span> }
-              
+
             {/* 🔹 TARJETA */}
             {MP && tarjeta !== null && (
               <span className="txt-stats bg-txt">
@@ -261,6 +295,34 @@ const Calculadora = () => {
                )}
           </strong>
         </div>
+
+        <div style={{ marginTop: "8px" }}>
+<div style={{ marginTop: "8px", display: "flex", gap: "1em" }}>
+  <button
+    className={`btn-w ${saved ? "btn-saved" : ""}`}
+    style={{ maxWidth: "30em" }}
+    onClick={() => {
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2000);
+      handleGuardarComisiones();
+    }}
+  >
+    Guardar Comisiones
+  </button>
+
+  <button
+    className="btn-w"
+    style={{ maxWidth: "30em", backgroundImage: "linear-gradient(to left, rgb(86, 1, 1), rgb(142, 2, 2))", color: "aliceblue" }}
+    onClick={handleResetFormulario}
+  >
+    Limpiar formulario
+  </button>
+</div>
+
+
+
+</div>
+
       </header>
 
       {/* INPUTS */}
