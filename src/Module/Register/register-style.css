@@ -30,9 +30,10 @@
     gap: 1em;
     width: 80vw;
   }
-  .header-card-header{
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-  }
+  .header-card-header {
+  display: grid;
+  grid-template-columns: repeat(2, 12em); /* máximo 2 columnas */
+  gap: 1em;
+}
+
 }

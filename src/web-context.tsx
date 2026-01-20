@@ -3,7 +3,7 @@ import {
   useContext,
   useEffect,
   useState,
-  ReactNode,
+  type ReactNode
 } from "react";
 
 /* =========================
@@ -64,13 +64,42 @@ const safeStorage = {
       return fallback;
     }
   },
-  set(key: string, value: unknown) {
-    if (!storageAvailable()) return;
-    try {
-      localStorage.setItem(key, JSON.stringify(value));
-    } catch {}
-  },
+
+ set(key: string, value: unknown) {
+  if (!storageAvailable()) return;
+
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+
+    // 🔍 DEBUG SEGURO
+    const snapshot = STORAGE_KEYS.reduce((acc, k) => {
+      const raw = localStorage.getItem(k);
+      acc[k] = raw ? JSON.parse(raw) : null;
+      return acc;
+    }, {} as Record<string, unknown>);
+
+    console.log("📦 localStorage (solo app):");
+    console.table(snapshot);
+
+  } catch (error) {
+    console.error("❌ Error guardando en localStorage", error);
+  }
+}
+
 };
+
+const STORAGE_KEYS = [
+  "LOCAL",
+  "META",
+  "COMISIONES",
+  "EMPLEADOS",
+  "SUELDOS",
+  "DIAS",
+  "MENSUALIDAD",
+  "MP",
+  "REGISTRO",
+];
+
 
 /* =========================
    CONTEXT

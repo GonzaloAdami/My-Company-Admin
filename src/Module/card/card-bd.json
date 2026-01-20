@@ -1,26 +1,23 @@
 [
   {
-    "title": "Caja",
-    "description": "Administra las ventas y el flujo de caja de tu empresa",
+    "title": "Ganancias",
+    "description": "Ve las ganancias de las comisiones, bombas y extras del dia a dia, puedes ver la comparacion de cada dia con el dia anterior para visualizar el rendimiento en tus ganancias",
     "imagen": "https://media.istockphoto.com/id/1211747338/es/vector/icono-de-an%C3%A1lisis-de-beneficios-crecimiento-de-ganancias.jpg?s=612x612&w=0&k=20&c=JurY9MZjS_EMaMm8SCb8lG5hLc4WvqGl7L4ZFfUAHJ8=",
-    "categoria": "Administración"
+    "categoria": "Ganancias",
+    "path" : "Comisiones/Ganancias"
   },
   {
-    "title": "Caja",
-    "description": "Administra las ventas y el flujo de caja de tu empresa",
-    "imagen": "https://media.istockphoto.com/id/1211747338/es/vector/icono-de-an%C3%A1lisis-de-beneficios-crecimiento-de-ganancias.jpg?s=612x612&w=0&k=20&c=JurY9MZjS_EMaMm8SCb8lG5hLc4WvqGl7L4ZFfUAHJ8=",
-    "categoria": "Administración"
+    "title": "Registros",
+    "description": "Ahora puedes llevar el registros de cuanto vendes en el dia a dia, y se realizara automaticamnete el conteo mensual",
+    "imagen": "https://res.cloudinary.com/dt6otshxt/image/upload/v1768925488/organizing-professional-documents-within-blue-260nw-2652209459_-_Editado_cm5bmr.jpg",
+    "categoria": "Registros",
+    "path" : "Mensualidad/Registro"
   },
   {
-    "title": "Caja",
-    "description": "Administra las ventas y el flujo de caja de tu empresa",
-    "imagen": "https://media.istockphoto.com/id/1211747338/es/vector/icono-de-an%C3%A1lisis-de-beneficios-crecimiento-de-ganancias.jpg?s=612x612&w=0&k=20&c=JurY9MZjS_EMaMm8SCb8lG5hLc4WvqGl7L4ZFfUAHJ8=",
-    "categoria": "Administración"
-  },
-  {
-    "title": "Caja",
-    "description": "Administra las ventas y el flujo de caja de tu empresa",
-    "imagen": "https://media.istockphoto.com/id/1211747338/es/vector/icono-de-an%C3%A1lisis-de-beneficios-crecimiento-de-ganancias.jpg?s=612x612&w=0&k=20&c=JurY9MZjS_EMaMm8SCb8lG5hLc4WvqGl7L4ZFfUAHJ8=",
-    "categoria": "Administración"
+    "title": "Calculadora de Comisiones",
+    "description": "Calcula automaticamente las comisiones y ahorra tiempo en el cierre diario.",
+    "imagen": "https://www.shutterstock.com/image-vector/payroll-system-concept-online-income-600nw-2510380401.jpg",
+    "categoria": "Comisiones",
+    "path" : "Comisiones/Calculadora"
   }
 ]

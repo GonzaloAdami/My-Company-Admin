@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 import "../Register/register-style.css";
 
 const formatNumber = (value: number) =>
@@ -34,11 +34,11 @@ const GenCards = ({
 
     /* ---------------- TOTAL ---------------- */
 
-    const total = safeData.reduce((acc, curr) => acc + curr, 0);
+    const total = useMemo(
+        () => safeData.reduce((a, b) => a + b, 0),
+        [safeData]
+    );
 
-    useEffect(() => {
-        localStorage.setItem(storageKey, JSON.stringify(total));
-    }, [total, storageKey]);
 
     /* ---------------- HELPERS ---------------- */
 
@@ -118,7 +118,7 @@ const GenCards = ({
                     </span>
                 </article>
             )}
-            
+
             {/* LISTA */}
             {safeData.map((item, index) => {
                 const anterior = safeData[index - 1];
@@ -175,7 +175,7 @@ const GenCards = ({
                 );
             })}
 
-            
+
         </section>
     );
 };

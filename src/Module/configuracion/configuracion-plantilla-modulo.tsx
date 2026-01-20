@@ -46,6 +46,7 @@ const Configuracion = () => {
               defaultValue={localFromStorage}
               onChange={(e) => setLOCAL(e.target.value)}
             >
+              <option value="">Seleccionar un local</option>
               <option value="F1 / F2 / Cabildo">F1 / F2 / Cabildo</option>
               <option value="F3">F3</option>
             </select>

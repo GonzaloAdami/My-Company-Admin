@@ -11,6 +11,9 @@ const config_options = {
   mensualidad: ["Meta", "Dias"],
 };
 
+
+
+
 type ConfigKey = keyof typeof config_options;
 
 /* =========================
@@ -68,15 +71,26 @@ const GenFormConfig = ({ modulo }: GenFormConfigProps) => {
     HANDLERS
   ========================= */
 
-  const handleEmpleadosChange = (value: number) => {
-    setEmpleados(value);
+  const handleEmpleadosChange = (num: number | "") => {
+    if (num === "") {
+      setValues((prev) => ({ ...prev, Empleados: num }));
+      setEmpleados(0);
+      setSUELDOS([]);
+      setSueldos([]);
+      return;
+    }
 
-    const base = Array(value).fill(0);
-    setSueldos(base);
+    // Limitar a máximo 6 empleados
+    const cantidad = Math.min(Number(num), 6);
 
-    setEMPLEADOS(value);
+    setValues((prev) => ({ ...prev, Empleados: cantidad }));
+    const base = Array(cantidad).fill(0);
+
+    setEMPLEADOS(cantidad);
     setSUELDOS(base);
+    setSueldos(base);
   };
+
 
   const handleSueldoChange = (index: number, value: number) => {
     const copy = [...sueldos];
@@ -99,12 +113,23 @@ const GenFormConfig = ({ modulo }: GenFormConfigProps) => {
             <label key={item} className="column">
               <span className="f2">Empleados</span>
               <input
-                type="number"
-                min={0}
-                onChange={(e) =>
-                  handleEmpleadosChange(Number(e.target.value))
-                }
+                type="text"
+                inputMode="numeric"
+                value={formatNumber(values["Empleados"] ?? "")}
+                onChange={(e) => {
+                  const raw = parseNumber(e.target.value);
+                  let num: number | "" = raw === "" ? "" : Number(raw);
+
+                  // Limitar a máximo 6
+                  if (typeof num === "number" && num > 6) num = 6;
+
+                  if (num === "" || !isNaN(num)) {
+                    handleEmpleadosChange(num);
+                  }
+                }}
               />
+
+
             </label>
           );
         }
@@ -119,7 +144,6 @@ const GenFormConfig = ({ modulo }: GenFormConfigProps) => {
                   <input
                     type="text"
                     inputMode="numeric"
-                    placeholder={`Sueldo Empleado ${index + 1}`}
                     value={formatNumber(sueldos[index] ?? "")}
                     onChange={(e) => {
                       const raw = parseNumber(e.target.value);
@@ -141,7 +165,6 @@ const GenFormConfig = ({ modulo }: GenFormConfigProps) => {
           return (
             <label key={item} className="switch-container">
               <span className="f2">Calcular MercadoPago</span>
-
               <div className="switch">
                 <input
                   type="checkbox"

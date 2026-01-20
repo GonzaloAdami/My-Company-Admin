@@ -1,10 +1,12 @@
-import BD from './card-bd.json';
-import './card-style.css'
+import { Link } from "react-router-dom";
+import BD from "./card-bd.json";
+import "./card-style.css";
+
 const Card = () => {
   return (
     <>
-      {BD.map((data, index) => (
-        <article key={index} className="card">
+      {BD.map((data) => (
+        <article key={data.path} className="card">
           <header
             className="card-header"
             style={{ backgroundImage: `url(${data.imagen})` }}
@@ -13,9 +15,15 @@ const Card = () => {
           <footer className="card-footer">
             <h2>{data.title}</h2>
             <span>{data.description}</span>
-            <button style={{ marginTop: "2em" }}>
-              Ir a {data.categoria}
-            </button>
+
+            <Link to={`/${data.path}`}>
+              <button
+                className="btn-w"
+                style={{ marginTop: "2em", maxWidth: "40em" }}
+              >
+                Ver {data.categoria}
+              </button>
+            </Link>
           </footer>
         </article>
       ))}

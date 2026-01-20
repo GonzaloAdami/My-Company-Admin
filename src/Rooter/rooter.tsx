@@ -1,6 +1,6 @@
 import { useRoutes } from "react-router-dom";
 
-import About from "../Components/about/about-component";
+
 import Home from "../Components/Home/home-component";
 import Configuracion from "../Module/configuracion/configuracion-plantilla-modulo";
 import Calculadora from "../Module/Calculadora/calculadora-component";
@@ -16,7 +16,7 @@ const Router = () => {
     },
     {
       path: ":modulo/Inicio",
-      element: <About />
+      element: <Home />
     },
     {
       path: ":modulo/Configuracion",

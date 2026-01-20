@@ -11,11 +11,11 @@ const About = () => {
       
       
         <div className="about-item" key={index}>
-          <h1 className="txt">{item.title}</h1>
-          <span className="txt">{item.descripcion}</span>
+          <h1 className="about-title">{item.title}</h1>
+          <span className="text-about">{item.descripcion}</span>
           
         </div>
-        <button className='txt btn-w' style={{marginTop: "1em"}}>Comenzar</button>
+        <button className='txt btn-w' style={{marginTop: "1em", fontSize: "1.5em"}}>Comenzar</button>
       </>
       ))}
     </section>

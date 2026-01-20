@@ -8,17 +8,12 @@
     {
       "id": 1,
       "name": "Mensualidad",
-      "list": ["Configuracion", "Promedio-diario", "Conteo"]
-    },
-    {
-      "id": 2,
-      "name": "Registros",
       "list": ["Configuracion", "Registro"]
     },
     {
       "id": 3,
       "name": "Explora",
-      "list": ["Inicio", "Contacto", "Soporte"]
+      "list": ["Inicio"]
     }
   ],
   "icon": "www.imagen.com"
