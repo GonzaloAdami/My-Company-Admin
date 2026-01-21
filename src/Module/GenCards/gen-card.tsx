@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import "../Register/register-style.css";
 
 const formatNumber = (value: number) =>
@@ -21,9 +21,7 @@ interface GenProps {
 const GenCards = ({
     data,
     setData,
-    storageKey,
     meta,
-    dias,
     label = "Valor del día",
     title = "VALOR",
 }: GenProps) => {
@@ -39,19 +37,43 @@ const GenCards = ({
         [safeData]
     );
 
+    const hasMeta = typeof meta === "number" && meta > 0;
+    const [showMetaWarning, setShowMetaWarning] = useState(true);
+
+
+    useEffect(() => {
+        if (!hasMeta && showMetaWarning) {
+            const timer = setTimeout(() => {
+                setShowMetaWarning(false);
+            }, 5000);
+
+            const handleClick = () => {
+                setShowMetaWarning(false);
+            };
+
+            window.addEventListener("click", handleClick);
+
+            return () => {
+                clearTimeout(timer);
+                window.removeEventListener("click", handleClick);
+            };
+        }
+    }, [hasMeta, showMetaWarning]);
 
     /* ---------------- HELPERS ---------------- */
 
-    const getClass = (value: number | null) => {
+    const getMetaClass = (acumulado: number) => {
+        if (!hasMeta) return "no-meta";
+        return acumulado >= meta! ? "true" : "false";
+    };
+
+
+    const getPorcentajeClass = (value: number | null) => {
         if (value === null) return "";
         return value >= 0 ? "true" : "false";
     };
 
-    const getVentasClass = (value: number) => {
-        if (!meta || !dias || dias === 0) return "";
-        const promedioDiario = meta / dias;
-        return value >= promedioDiario ? "true" : "false";
-    };
+    
 
     /* ---------------- CRUD ---------------- */
 
@@ -87,7 +109,18 @@ const GenCards = ({
     /* ---------------- RENDER ---------------- */
 
     return (
-        <section className="column g1 center" style={{ marginTop: "2em" }}>
+        <section
+            className="column g1 center section-cards"
+            style={{ marginTop: "2em" }}
+        >
+            {!hasMeta && showMetaWarning && (
+                <div className="meta-warning">
+                    Para ver las comparaciones de meta debés agregar una <b>meta</b> y{" "}
+                    <b>días</b> en <b>Mensualidad &gt; Configuración</b>
+                </div>
+            )}
+
+
             {/* INPUT */}
             <main className="column g1" style={{ marginBottom: "2em" }}>
                 <input
@@ -97,7 +130,9 @@ const GenCards = ({
                     value={input}
                     onChange={(e) => {
                         const raw = e.target.value.replace(/\D/g, "");
-                        setInput(raw ? Number(raw).toLocaleString("es-AR") : "");
+                        setInput(
+                            raw ? Number(raw).toLocaleString("es-AR") : ""
+                        );
                     }}
                     style={{ width: "50vw" }}
                 />
@@ -112,7 +147,7 @@ const GenCards = ({
                 <article className="column g1 p1 register-card-body">
                     <span className="txt title">
                         Total :{" "}
-                        <span className="true">
+                        <span className={getMetaClass(total)}>
                             {formatNumber(total)}
                         </span>
                     </span>
@@ -128,6 +163,10 @@ const GenCards = ({
                     porcentaje = ((item - anterior) / anterior) * 100;
                 }
 
+                const acumuladoHastaHoy = safeData
+                    .slice(0, index + 1)
+                    .reduce((a, b) => a + b, 0);
+
                 return (
                     <article
                         key={index}
@@ -136,7 +175,7 @@ const GenCards = ({
                         <header className="header-card-header">
                             <span className="txt title">
                                 {title} :{" "}
-                                <span className={getVentasClass(item)}>
+                                <span className={getMetaClass(acumuladoHastaHoy)}>
                                     {formatNumber(item)}
                                 </span>
                             </span>
@@ -148,11 +187,13 @@ const GenCards = ({
                                 </span>
                             </span>
 
-                            <span className={getClass(porcentaje)}>
+                            <span className={getPorcentajeClass(porcentaje)}>
                                 {porcentaje === null ? (
                                     <span className="true">Primer día</span>
                                 ) : (
-                                    `${porcentaje > 0 ? "+" : ""}${porcentaje.toFixed(2)}%`
+                                    `${porcentaje > 0 ? "+" : ""}${porcentaje.toFixed(
+                                        2
+                                    )}%`
                                 )}
                             </span>
                         </header>
@@ -174,8 +215,6 @@ const GenCards = ({
                     </article>
                 );
             })}
-
-
         </section>
     );
 };

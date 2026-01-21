@@ -1,7 +1,7 @@
 [
   {
     "title": "Ganancias",
-    "description": "Ve las ganancias de las comisiones, bombas y extras del dia a dia, puedes ver la comparacion de cada dia con el dia anterior para visualizar el rendimiento en tus ganancias",
+    "description": "Ahora puedes ver el registro de todas tus ganancias para que puedas comparar con otros meses y administrar tu economia",
     "imagen": "https://media.istockphoto.com/id/1211747338/es/vector/icono-de-an%C3%A1lisis-de-beneficios-crecimiento-de-ganancias.jpg?s=612x612&w=0&k=20&c=JurY9MZjS_EMaMm8SCb8lG5hLc4WvqGl7L4ZFfUAHJ8=",
     "categoria": "Ganancias",
     "path" : "Comisiones/Ganancias"

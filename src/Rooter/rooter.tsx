@@ -24,7 +24,7 @@ const Router = () => {
     },
     {
       path: "*",
-      element: <Error mensaje={"404"}/>
+      element: <Error />
     },
     {
       path: ":modulo/Calculadora",

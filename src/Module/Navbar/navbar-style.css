@@ -94,6 +94,38 @@
     padding: 0.2em 1em;
     height: 2em;
 }
+.search-container {
+  position: relative;
+}
+
+.search-dropdown {
+  position: absolute;
+  top: 100%;
+  width: 3emm;
+  max-width: 3em;
+  background: aliceblue;
+  border: 1px solid black;
+  z-index: 1000;
+}
+.nav-input-item{
+   background-color: rgba(204, 212, 219, 0.387)
+}
+
+.nav-input-menu{
+  background-color: rgba(204, 212, 219, 0.387);
+  max-width: 20em;
+  transform: translateX(1.1em);
+  border-radius: 0 0 5px 5px;
+  
+}
+.search-dropdown li {
+  padding: 0.5em;
+  cursor: pointer;
+}
+
+.search-dropdown li:hover {
+  background: aliceblue;
+}
 
 @media (max-width: 480px) {
   .navbar {
@@ -104,5 +136,13 @@
   .navbar-input{
     max-width: 15em;
   }
+
+.nav-input-menu{
+ 
+  max-width: 15em;
+  transform: translateX(1.1em);
+  border-radius: 0 0 5px 5px;
+  
+}
 }
 

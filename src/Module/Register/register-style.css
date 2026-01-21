@@ -23,6 +23,28 @@
   gap: 1em;
 }
 
+.no-meta {
+    background-image: linear-gradient(to left, #5d23bb, rgb(66, 21, 138));
+    opacity: 0.9;
+    color: aliceblue;
+    padding: 0em 0.5em;
+    border-radius: 5px;
+}
+
+.meta-warning {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    background: #6b21a8;
+    color: white;
+    padding: 1rem 1.2rem;
+    border-radius: 0.75rem;
+    font-size: 0.9rem;
+    max-width: 320px;
+    z-index: 1000;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
 @media (max-width: 480px) {
   .register-card-body{
     display: flex;

@@ -1,3 +1,7 @@
+.section-cards{
+    min-width: 100vw;
+}
+
 .card{
     display: flex;
     flex-direction: column;

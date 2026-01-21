@@ -75,4 +75,11 @@
     max-width: 90vw;
   }
  
+  .section-about::before {
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.6),
+    rgba(0, 0, 0, 0.3)
+  );
+  }
 }
