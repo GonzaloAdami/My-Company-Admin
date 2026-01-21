@@ -1,54 +1,62 @@
-/* CONTENEDOR */
+/* =========================
+   SWITCH CONFIABLE CROSS-BROWSER
+========================= */
+
 .switch-container {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  align-items: start;
+  justify-content: start;
+  gap: 2em;
+  width: 100vw;
 }
 
-/* SWITCH BASE */
-.switch {
-  position: relative;
-  width: 52px;
-  height: 28px;
-}
+/* =========================
+   SWITCH SOLO CHROME
+========================= */
 
-/* INPUT OCULTO */
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
+@supports selector(:has(input:checked)) {
 
-/* SLIDER */
-.slider {
-  position: absolute;
-  cursor: pointer;
-  inset: 0;
-  background-color: #d1d5db;
-  border-radius: 999px;
-  transition: background-color 0.3s;
-}
+  .chrome-only {
+    position: relative;
+    width: 56px;
+    height: 30px;
+  }
 
-/* BOTÓN */
-.slider::before {
-  content: "";
-  position: absolute;
-  height: 22px;
-  width: 22px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  border-radius: 50%;
-  transition: transform 0.3s;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
+  .chrome-only input {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    cursor: pointer;
+    border-radius: 999px;
+    background-color: #c62828; /* ROJO */
+    transition: background-color 0.25s ease;
+  }
 
-/* ACTIVADO */
-.switch input:checked + .slider {
-  background-color: #22c55e; /* verde elegante */
-}
+  .chrome-only input::before {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 22px;
+    height: 22px;
+    background: white;
+    border-radius: 50%;
+    transition: transform 0.25s ease;
+  }
 
-.switch input:checked + .slider::before {
-  transform: translateX(24px);
+  /* ACTIVADO */
+  .chrome-only input:checked {
+    background-color: #2e7d32; /* VERDE */
+  }
+
+  .chrome-only input:checked::before {
+    transform: translateX(26px);
+  }
+
+  /* OCULTAMOS EL SLIDER */
+  .chrome-only .slider {
+    display: none;
+  }
 }

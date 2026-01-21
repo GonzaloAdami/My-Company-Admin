@@ -1,4 +1,6 @@
 .register-card-body{
+    display: flex;
+    float: left;
     background-image: linear-gradient(to left , rgb(0, 0, 0), rgb(34, 33, 33));
     padding: 1.6em;
     gap: 0.8em;
@@ -48,7 +50,7 @@
 @media (max-width: 480px) {
   .register-card-body{
     display: flex;
-    flex-direction: column;
+    float: left;
     gap: 1em;
     width: 80vw;
   }

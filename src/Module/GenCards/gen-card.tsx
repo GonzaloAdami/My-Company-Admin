@@ -21,6 +21,7 @@ interface GenProps {
 const GenCards = ({
     data,
     setData,
+    dias,
     meta,
     label = "Valor del día",
     title = "VALOR",
@@ -63,9 +64,27 @@ const GenCards = ({
     /* ---------------- HELPERS ---------------- */
 
     const getMetaClass = (acumulado: number) => {
-        if (!hasMeta) return "no-meta";
-        return acumulado >= meta! ? "true" : "false";
+        if (!hasMeta || !dias || dias <= 0) return "no-meta";
+
+        const metaDiaria = meta! / dias;
+        return acumulado >= metaDiaria ? "true" : "false";
     };
+
+    const getPromedio = () => {
+        if (!meta || !dias) return null;
+
+        const diasPasados = safeData.length;
+        const diasRestantes = (dias - diasPasados) - 1;
+
+        if (diasRestantes <= 0) return 0;
+
+        const restante = meta - total;
+
+        if (restante <= 0) return 0;
+
+        return Math.ceil(restante / diasRestantes);
+    };
+
 
 
     const getPorcentajeClass = (value: number | null) => {
@@ -73,7 +92,7 @@ const GenCards = ({
         return value >= 0 ? "true" : "false";
     };
 
-    
+
 
     /* ---------------- CRUD ---------------- */
 
@@ -144,14 +163,24 @@ const GenCards = ({
 
             {/* TOTAL */}
             {safeData.length > 0 && (
-                <article className="column g1 p1 register-card-body">
+                <article className=" g1 p1 register-card-body">
                     <span className="txt title">
                         Total :{" "}
                         <span className={getMetaClass(total)}>
                             {formatNumber(total)}
                         </span>
                     </span>
+
+                    {meta && dias && (
+                        <span className="txt title">
+                            Promedio :{" "}
+                            <span className={getMetaClass(getPromedio() ?? 0)}>
+                                {formatNumber(getPromedio() ?? 0)}
+                            </span>
+                        </span>
+                    )}
                 </article>
+
             )}
 
             {/* LISTA */}
@@ -163,10 +192,6 @@ const GenCards = ({
                     porcentaje = ((item - anterior) / anterior) * 100;
                 }
 
-                const acumuladoHastaHoy = safeData
-                    .slice(0, index + 1)
-                    .reduce((a, b) => a + b, 0);
-
                 return (
                     <article
                         key={index}
@@ -175,7 +200,7 @@ const GenCards = ({
                         <header className="header-card-header">
                             <span className="txt title">
                                 {title} :{" "}
-                                <span className={getMetaClass(acumuladoHastaHoy)}>
+                                <span className={getMetaClass(item)}>
                                     {formatNumber(item)}
                                 </span>
                             </span>

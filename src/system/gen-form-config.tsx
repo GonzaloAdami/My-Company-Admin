@@ -163,17 +163,21 @@ const GenFormConfig = ({ modulo }: GenFormConfigProps) => {
         /* -------- SWITCH MP (EXCEPCIÓN) -------- */
         if (item === "CalcularMP") {
           return (
-            <label key={item} className="switch-container">
-              <span className="f2">Calcular MercadoPago</span>
-              <div className="switch">
-                <input
-                  type="checkbox"
-                  checked={MP}
-                  onChange={(e) => setMP(e.target.checked)}
-                />
-                <span className="slider" />
-              </div>
-            </label>
+<label className="switch-container">
+  <span className="f2">Calcular MercadoPago</span>
+
+  <div className="switch chrome-only">
+    <input
+      type="checkbox"
+      checked={MP}
+      onChange={(e) => setMP(e.target.checked)}
+    />
+    <span className="slider" />
+  </div>
+</label>
+
+
+
           );
         }
 
