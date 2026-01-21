@@ -1,73 +1,93 @@
-# React + TypeScript + Vite
+# 🚀 IDigital – Calculadora y Gestión Comercial
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+IDigital es una aplicación web diseñada para **optimizar y agilizar el trabajo diario de los empleados**, permitiéndoles realizar cálculos comerciales de forma rápida, clara y automática.
 
-Currently, two official plugins are available:
+La plataforma centraliza el **cálculo de comisiones**, el **registro de facturación diaria** y el **análisis comparativo de resultados**, reduciendo errores manuales y ahorrando tiempo en tareas repetitivas.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🎯 Propósito del proyecto
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+El objetivo principal de IDigital es **mejorar la experiencia laboral de los empleados**, brindándoles herramientas simples pero potentes para:
+- Llevar control de sus ingresos diarios
+- Analizar el rendimiento del local
+- Tomar mejores decisiones basadas en datos claros y comparaciones automáticas
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## ✨ Funcionalidades principales
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- 📊 **Cálculo automático de comisiones**
+- 🏪 **Registro diario de facturación del local**
+- 👥 **Gestión de múltiples empleados**
+- 📅 **Historial diario de comisiones ganadas**
+- 📈 **Comparación automática con el día anterior**:
+  - Ganancias por comisiones
+  - Facturación del local (comparación porcentual)
+- 📆 **Seguimiento mensual**:
+  - Conteo automático del mes
+  - Cálculo del promedio diario según días transcurridos
+- 🔍 **Buscador inteligente** que permite acceder rápidamente a funciones sin navegar manualmente
+- 💳 **Cálculo opcional de diferencias entre ventas**:
+  - QR
+  - Débito
+  - Crédito  
+  (función desactivable según necesidad)
+- ⚙️ **Alta configurabilidad**:
+  - Cantidad de empleados
+  - Parámetros ajustables según el local
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🛠 Tecnologías utilizadas
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- **React**
+- **TypeScript**
+- **CSS**
+- **React Router**
+- **Context API**
+- **LocalStorage**
+- **Firebase (Deploy)**
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🧠 Arquitectura y enfoque técnico
+
+- Uso de **tipado fuerte en TypeScript** para evitar errores y mejorar la mantenibilidad
+- **Componentes dinámicos, reutilizables y escalables**
+- Renderizado basado en **parámetros y mapeos**, evitando código rígido
+- Configuración del **navbar y opciones estáticas mediante archivos JSON**, lo que permite:
+  - Fácil modificación
+  - Escalabilidad futura
+  - Posible reemplazo por URLs de APIs u otras fuentes de datos
+- Persistencia de datos mediante **LocalStorage** para registros diarios
+- Sistema de **loading** para una mejor experiencia de usuario
+- **Página de error personalizada**
+- Implementación de **metadatos y mejoras SEO**
+
+---
+
+## 🌐 Deploy
+
+La aplicación se encuentra desplegada utilizando **Firebase**.
+
+---
+
+## 🚧 Estado del proyecto
+
+🔄 En expansión activa.  
+El proyecto continúa evolucionando con el objetivo de:
+- Incorporar nuevas funcionalidades
+- Mejorar la experiencia del usuario
+- Optimizar rendimiento y escalabilidad
+
+---
+
+## 👤 Autor
+
+**Gonzalo Adami**  
+Frontend Developer  
+📧 gonzaloadamie@gmail.com  
+
+---
+
