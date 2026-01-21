@@ -9,6 +9,7 @@ const Calculadora = () => {
     META,
     DIAS,
     EMPLEADOS,
+    setREGISTRO,
     MP,
     COMISIONES,
     setCOMISIONES,
@@ -130,22 +131,31 @@ const Calculadora = () => {
     return raw === "" ? "" : Number(raw);
   };
 
-  const handleGuardarComisiones = () => {
-    const baseComisiones = Number(comisiones) || 0;
-    const baseExtras = Number(extras) || 0;
-    const baseBombas = totalBombas;
-    const bonoMeta = llegaMetaDiaria ? 900 : 0;
+  const handleGuardarRegistro = () => {
+  const baseComisiones = Number(comisiones) || 0;
+  const baseExtras = Number(extras) || 0;
+  const baseBombas = totalBombas;
+  const bonoMeta = llegaMetaDiaria ? 900 : 0;
 
-    const totalAGuardar =
-      baseComisiones +
-      baseExtras +
-      baseBombas +
-      bonoMeta;
+  const totalAGuardar =
+    baseComisiones +
+    baseExtras +
+    baseBombas +
+    bonoMeta;
 
-    if (totalAGuardar === 0) return;
+  // 🚫 no guardar basura
+  if (totalAGuardar === 0 && ventas === "") return;
 
+  /* 🔹 Guardar comisiones */
+  if (totalAGuardar > 0) {
     setCOMISIONES([...COMISIONES, totalAGuardar]);
-  };
+  }
+
+  /* 🔹 Guardar registro de ventas */
+  if (ventas !== "") {
+    setREGISTRO((prev) => [...prev, ventas]);
+  }
+};
 
   const handleResetFormulario = () => {
     setVentas("");
@@ -317,17 +327,18 @@ const Calculadora = () => {
 
         <div style={{ marginTop: "8px" }}>
           <div style={{ marginTop: "8px", display: "flex", gap: "1em" }}>
-            <button
-              className={`btn-w ${saved ? "btn-saved" : ""}`}
-              style={{ maxWidth: "30em" }}
-              onClick={() => {
-                setSaved(true);
-                setTimeout(() => setSaved(false), 2000);
-                handleGuardarComisiones();
-              }}
-            >
-              Guardar Comisiones
-            </button>
+          <button
+  className={`btn-w ${saved ? "btn-saved" : ""}`}
+  style={{ maxWidth: "30em" }}
+  onClick={() => {
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
+    handleGuardarRegistro();
+  }}
+>
+  Guardar Registro
+</button>
+
 
             <button
               className="btn-w"

@@ -21,6 +21,7 @@ interface GenProps {
 const GenCards = ({
     data,
     setData,
+    
     dias,
     meta,
     label = "Valor del día",
